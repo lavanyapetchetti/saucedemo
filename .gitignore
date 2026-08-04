@@ -1,0 +1,13 @@
+# Playwright
+node_modules/
+.env
+reports/
+allure-results/
+screenshots/
+test-results/
+playwright-report/
+allure-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+auth/storageState.json
