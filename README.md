@@ -21,20 +21,15 @@ https://www.saucedemo.com
 
 ## Framework Architecture
 
-pages/
-- Application page objects
-
-components/
-- Reusable UI components
-
-fixtures/
-- Dependency injection
-
-helpers/
-- API and utility helpers
-
-tests/
-- Test scenarios
+```
+pages/        - Application page objects
+components/   - Reusable UI components
+fixtures/     - Dependency injection
+utils/        - Environment and shared utilities
+tests/        - Test scenarios
+test-data/    - JSON test data
+auth/         - Generated storage state (gitignored)
+```
 
 ## Installation
 
@@ -54,6 +49,12 @@ Install browsers:
 
 ```bash
 npx playwright install
+```
+
+Copy environment file (optional):
+
+```bash
+cp .env.example .env
 ```
 
 ## Running Tests
@@ -76,6 +77,12 @@ Run smoke:
 npm run test:smoke
 ```
 
+Run regression:
+
+```bash
+npm run test:regression
+```
+
 ## Reports
 
 HTML Report:
@@ -88,7 +95,6 @@ Allure Report:
 
 ```bash
 npm run allure:generate
-
 npm run allure:open
 ```
 
@@ -99,7 +105,8 @@ GitHub Actions executes:
 - Install dependencies
 - Install browsers
 - Execute tests
-- Upload reports
+- Upload HTML reports
+- Upload Allure results
 - Upload screenshots
 
 ## Design Patterns
@@ -111,6 +118,20 @@ Implemented:
 - Fixture Pattern
 - Data Driven Testing
 - Environment Configuration
+- Authenticated vs unauthenticated test projects
+
+## Test Tags
+
+- `@smoke` - Critical path tests (login, add to cart)
+- `@regression` - Broader coverage (cart, checkout validation, logout, API sample)
+
+## Quality Checks
+
+```bash
+npm run typecheck
+npm run lint
+npm run format:check
+```
 
 ## Future Improvements
 

@@ -1,26 +1,42 @@
-import { test, expect } from '../fixtures/pagesFixture';
+import { test } from '../fixtures/pagesFixture';
 import checkoutData from '../test-data/checkout.json';
-import users from '../test-data/users.json';
+import errors from '../test-data/errors.json';
 
-test('Complete checkout flow', async ({ loginPage, inventoryPage, checkoutPage, page }) => {
-	await loginPage.open();
-	await loginPage.login(users.validUser.username, users.validUser.password);
+test('Complete checkout flow @regression', async ({
+  page,
+  inventoryPage,
+  cartPage,
+  checkoutPage,
+}) => {
+  await page.goto('/inventory.html');
 
-	// Add an item and open cart
-	await inventoryPage.addBackpack();
-	await page.locator('.shopping_cart_link').click();
+  await inventoryPage.addBackpack();
+  await inventoryPage.openCart();
+  await cartPage.proceedToCheckout();
 
-	// Proceed to checkout
-	await page.locator('[data-test="checkout"]').click();
+  await checkoutPage.enterCustomerDetails(
+    checkoutData.customer.firstName,
+    checkoutData.customer.lastName,
+    checkoutData.customer.zip,
+  );
+  await checkoutPage.continue();
+  await checkoutPage.completeOrder();
 
-	// Fill customer details and complete order
-	await checkoutPage.enterCustomerDetails(
-		checkoutData.customer.firstName,
-		checkoutData.customer.lastName,
-		checkoutData.customer.zip
-	);
-	await checkoutPage.continue();
-	await checkoutPage.completeOrder();
+  await checkoutPage.verifyOrderComplete();
+});
 
-	await expect(page).toHaveURL(/checkout-complete/);
+test('Checkout validation for empty customer details @regression', async ({
+  page,
+  inventoryPage,
+  cartPage,
+  checkoutPage,
+}) => {
+  await page.goto('/inventory.html');
+
+  await inventoryPage.addBackpack();
+  await inventoryPage.openCart();
+  await cartPage.proceedToCheckout();
+
+  await checkoutPage.continue();
+  await checkoutPage.verifyValidationError(errors.checkoutFirstNameRequired);
 });

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.54.0-noble
+FROM mcr.microsoft.com/playwright:v1.62.1-noble
 
 WORKDIR /app
 
@@ -8,8 +8,4 @@ RUN npm ci
 
 COPY . .
 
-CMD [
-  "npx",
-  "playwright",
-  "test"
-]
+CMD ["npx", "playwright", "test"]

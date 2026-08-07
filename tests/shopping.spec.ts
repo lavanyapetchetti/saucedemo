@@ -1,8 +1,24 @@
-import { test } from '../fixtures/pagesFixture';
-import users from '../test-data/users.json';
+import { test, expect } from '../fixtures/pagesFixture';
 
-test('Add product to cart', async ({ loginPage, inventoryPage }) => {
-  await loginPage.open();
-  await loginPage.login(users.validUser.username, users.validUser.password);
+test('Add product to cart @smoke', async ({ page, inventoryPage }) => {
+  await page.goto('/inventory.html');
+
   await inventoryPage.addBackpack();
+  await inventoryPage.verifyItemAddedToCart();
+
+  const count = await inventoryPage.getCartCount();
+  expect(count).toBe('1');
+});
+
+test('Add multiple products to cart @regression', async ({
+  page,
+  inventoryPage,
+}) => {
+  await page.goto('/inventory.html');
+
+  await inventoryPage.addBackpack();
+  await inventoryPage.addBikeLight();
+
+  const count = await inventoryPage.getCartCount();
+  expect(count).toBe('2');
 });

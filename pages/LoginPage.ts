@@ -1,4 +1,4 @@
-import { Locator } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { Environment } from '../utils/Environment';
 
@@ -8,7 +8,7 @@ export class LoginPage extends BasePage {
   readonly loginButton: Locator;
   readonly errorMessage: Locator;
 
-  constructor(page: any) {
+  constructor(page: Page) {
     super(page);
 
     this.username = page.locator('[data-test="username"]');
@@ -22,16 +22,24 @@ export class LoginPage extends BasePage {
   }
 
   async login(username: string, password: string) {
-    await this.fill(this.username, username);
-    await this.fill(this.password, password);
-    await this.click(this.loginButton);
+    await this.username.fill(username);
+    await this.password.fill(password);
+    await this.loginButton.click();
   }
 
   async verifyLoginSuccessful() {
     await this.waitForURL(/inventory/);
   }
 
-  async verifyLoginFailed() {
+  async verifyLoginFailed(expectedMessage?: string) {
     await this.waitForVisible(this.errorMessage);
+    if (expectedMessage) {
+      await expect(this.errorMessage).toContainText(expectedMessage);
+    }
+  }
+
+  async verifyOnLoginPage() {
+    await this.waitForVisible(this.loginButton);
+    await expect(this.page).toHaveURL(/\/$/);
   }
 }
