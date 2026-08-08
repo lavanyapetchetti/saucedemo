@@ -1,5 +1,7 @@
 # Playwright TypeScript Automation Framework
 
+[![Playwright Tests](https://github.com/lavanyapetchetti/saucedemo/actions/workflows/playwright.yml/badge.svg)](https://github.com/lavanyapetchetti/saucedemo/actions/workflows/playwright.yml)
+
 ## Overview
 
 Enterprise-style UI and API automation framework built using:
@@ -42,7 +44,7 @@ git clone <repo-url>
 Install dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
 Install browsers:
@@ -73,6 +75,12 @@ Run all tests:
 
 ```bash
 npm test
+```
+
+Run CI validation locally:
+
+```bash
+npm run ci
 ```
 
 Run headed:
