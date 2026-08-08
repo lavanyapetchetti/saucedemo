@@ -57,6 +57,16 @@ Copy environment file (optional):
 cp .env.example .env
 ```
 
+### Environment variables
+
+Create a `.env` file with SauceDemo credentials if you want to override defaults:
+
+```bash
+BASE_URL=https://www.saucedemo.com
+USERNAME=standard_user
+PASSWORD=secret_sauce
+```
+
 ## Running Tests
 
 Run all tests:
@@ -104,9 +114,11 @@ GitHub Actions executes:
 
 - Install dependencies
 - Install browsers
-- Execute tests
+- Run `npm run ci`
+- Generate the Allure report
 - Upload HTML reports
 - Upload Allure results
+- Upload Allure report
 - Upload screenshots
 
 ## Design Patterns

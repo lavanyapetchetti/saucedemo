@@ -24,8 +24,7 @@ export default defineConfig({
     },
     {
       name: 'chromium',
-      testMatch: /.*\.spec\.ts/,
-      testIgnore: [/login\.spec\.ts/, /auth\.setup\.spec\.ts/, /api\.spec\.ts/],
+      testMatch: /^(?!.*(?:login|auth\.setup|api)\.spec\.ts$).*\.spec\.ts$/,
       dependencies: ['setup'],
       use: {
         ...devices['Desktop Chrome'],
